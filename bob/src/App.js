@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
@@ -31,7 +30,7 @@ class App extends Component {
       <div className="App">
          {this.state.projects.map(project => {
          return (
-           <div key={project.id} >
+           <div className ="project-card"key={project.id} >
             <h2> {project.name}</h2>
             <h4>{project.description}</h4>
              </div>
