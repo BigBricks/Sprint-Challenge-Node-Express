@@ -31,9 +31,8 @@ router.get('/:id', (req, res) => {
 //WHY DO WE NEED NOTES WHEN IT SAYS UNREQUIRED TF?????????????
 router.post('/', (req, res) => {
     const {project_id, description, notes} = req.body;
-    const newPost = {project_id, notes, description};
-    if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string')) {
-        res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string."})
+    if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string') || !(typeof project_id === 'number')) {
+        res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string.  Projectid also needs to be a number."})
     } else 
     db 
     .insert(newPost)
@@ -65,8 +64,8 @@ router.put('/:id', (req, res) => {
     if(!db.get(id)) {
         res.status(404).json({ message: "Action could not be found."})
     }
-    if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string')) {
-        res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string."})
+    if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string') || !(typeof project_id === 'number')) {
+        res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string. Projectid also needs to be a number."})
     } else
     db.update(id, req.body)
     .then(improve => {
