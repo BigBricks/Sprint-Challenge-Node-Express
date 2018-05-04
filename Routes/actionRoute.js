@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require('../data/helpers/actionModel');
+const dbpr = require('../data/helpers/projectModel');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -34,8 +35,9 @@ router.post('/', (req, res) => {
     if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string') || !(typeof project_id === 'number')) {
         res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string.  Projectid also needs to be a number."})
     } else 
+    dbpr.get
     db 
-    .insert(newPost)
+    .insert(req.body)
     .then(thing => {
         res.status(201).json(thing);
     })
