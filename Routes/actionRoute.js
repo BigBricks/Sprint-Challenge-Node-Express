@@ -35,15 +35,21 @@ router.post('/', (req, res) => {
     if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string') || !(typeof project_id === 'number')) {
         res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string.  Projectid also needs to be a number."})
     } else 
-    dbpr.get
-    db 
-    .insert(req.body)
-    .then(thing => {
-        res.status(201).json(thing);
-    })
-    .catch(err => {
-        res.status(500).json({ error: "There was an error saving the action to the database."})
-    });
+    dbpr.get(project_id)
+    .then(send => {
+        db 
+        .insert(req.body)
+        .then(thing => {
+            res.status(201).json(thing);
+        })
+        .catch(err => {
+            res.status(500).json({ error: "There was an error saving the action to the database."})
+        });
+})
+.catch(err => {
+    res.status(404).json({ error: "projectid not found."})
+});
+    
 });
 
 router.delete('/:id', (req, res) => {
@@ -69,13 +75,19 @@ router.put('/:id', (req, res) => {
     if (notes.length === 0 || description.length === 0 || description.length > 128 || !(typeof description === 'string') || !(typeof notes === 'string') || !(typeof project_id === 'number')) {
         res.status(404).json({ message: "Description must be a string between 1 and 128 characters and Notes must exist in a string. Projectid also needs to be a number."})
     } else
-    db.update(id, req.body)
-    .then(improve => {
-        res.status(200).json(improve);
+    dbpr.get(project_id)
+    .then(send => {
+        db.update(id, req.body)
+        .then(improve => {
+            res.status(200).json(improve);
+        })
+        .catch(err => {
+            res.status(500).json({  error: "The action information could not be modified." })
+        });
     })
-    .catch(err => {
-        res.status(500).json({  error: "The action information could not be modified." })
-    });
+   .catch(err => {
+    res.status(404).json({ error: "projectid not found."})
+   })
 });
 
 
